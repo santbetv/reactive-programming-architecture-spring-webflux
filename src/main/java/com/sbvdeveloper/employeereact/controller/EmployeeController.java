@@ -27,17 +27,17 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{id}")
-    public Mono<Employee> getEmployeeById(@RequestParam Long id){
+    public Mono<Employee> getEmployeeById(@RequestParam("id") Long id){
         return employeeService.getEmployeeById(id);
     }
 
-    @DeleteMapping("/employees/{id}")
-    public Mono<Employee> deleteEmployee(@RequestParam Long id){
+    @DeleteMapping("/employees")
+    public Mono<Employee> deleteEmployee(@RequestParam("id") Long id){
         return employeeService.deleteEmployee(id);
     }
 
     @PutMapping("/employees/{id}")
-    public Mono<Employee> updateEmployee(@RequestParam Long id, @RequestBody Employee employee){
+    public Mono<Employee> updateEmployee(@RequestParam("id") Long id, @RequestBody Employee employee){
         return employeeService.updateEmployee(id, employee);
     }
 }
