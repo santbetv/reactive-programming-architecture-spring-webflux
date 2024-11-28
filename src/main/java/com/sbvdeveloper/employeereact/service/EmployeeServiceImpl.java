@@ -7,7 +7,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService {
 
     private final ConfigDataEmployee configDataEmployee;
 
@@ -19,10 +19,11 @@ public class EmployeeServiceImpl implements EmployeeService{
     public Flux<Employee> getAllEmployees() {
         return Flux.fromIterable(configDataEmployee.crearBDMemoria());
     }
-
+    
     @Override
     public Mono<Employee> getEmployeeById(Long id) {
-        return this.getAllEmployees().filter(employee -> employee.getId().equals(id))
+        return this.getAllEmployees()
+                .filter(employee -> employee.getId().equals(id))
                 .next();
     }
 

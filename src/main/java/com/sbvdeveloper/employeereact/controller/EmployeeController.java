@@ -2,6 +2,8 @@ package com.sbvdeveloper.employeereact.controller;
 
 import com.sbvdeveloper.employeereact.domain.Employee;
 import com.sbvdeveloper.employeereact.service.EmployeeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -17,27 +19,32 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public Flux<Employee> getAllEmployees(){
-        return employeeService.getAllEmployees();
+    public ResponseEntity<Flux<Employee>> getAllEmployees(){
+        return new ResponseEntity<>(employeeService.getAllEmployees(), HttpStatus.OK);
     }
 
     @PostMapping("/employees")
-    public Mono<Employee> saveEmployee(@RequestBody Employee employee){
-        return employeeService.saveEmployee(employee);
+    public ResponseEntity<Mono<Employee>> saveEmployee(@RequestBody Employee employee){
+        return new ResponseEntity<>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
     }
 
     @GetMapping("/employees/{id}")
-    public Mono<Employee> getEmployeeById(@RequestParam("id") Long id){
-        return employeeService.getEmployeeById(id);
+    public ResponseEntity<Mono<Employee>> getEmployeeById(@RequestParam("id") Long id){
+        return new ResponseEntity<>(employeeService.getEmployeeById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/employees")
-    public Mono<Employee> deleteEmployee(@RequestParam("id") Long id){
-        return employeeService.deleteEmployee(id);
+    public Mono<ResponseEntity<Employee>> deleteEmployee(@RequestParam("id") Long id){
+        return employeeService.deleteEmployee(id)
+                .map(employee -> new ResponseEntity<>(employee, HttpStatus.OK))
+                .switchIfEmpty(Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
     }
 
+    //Responder de manera reactiva si se actualizo o no el empleado con ResponseEntity<
     @PutMapping("/employees/{id}")
-    public Mono<Employee> updateEmployee(@RequestParam("id") Long id, @RequestBody Employee employee){
-        return employeeService.updateEmployee(id, employee);
+    public Mono<ResponseEntity<Employee>> updateEmployee(@RequestParam("id") Long id, @RequestBody Employee employee){
+        return employeeService.updateEmployee(id, employee)
+                .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+                .switchIfEmpty(Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
     }
 }

@@ -1,9 +1,11 @@
 package com.sbvdeveloper.employeereact.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- *
  * @author santiago betancur
  */
 @Data
