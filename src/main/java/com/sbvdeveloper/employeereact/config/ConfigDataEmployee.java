@@ -12,7 +12,7 @@ import java.util.Random;
 public class ConfigDataEmployee {
 
     @Bean
-    public List<Employee> crearBDMemoria(){
+    public List<Employee> crearBDMemoria() {
         List<Employee> employees = new ArrayList<>();
 
         String[] names = {"Alice", "Bob", "Charlie", "Diana", "Eve", "Frank", "Grace", "Hank"};
@@ -21,9 +21,9 @@ public class ConfigDataEmployee {
         Random random = new Random();
         for (int i = 0; i < 8; i++) {
             Employee employee = Employee.builder()
-                    .id((long) (i + 1))  // IDs consecutivos
-                    .name(names[random.nextInt(names.length)])  // Nombres aleatorios
-                    .role(roles[random.nextInt(roles.length)])  // Roles aleatorios
+                    .id((long) (i + 1))
+                    .name(names[i])
+                    .role(roles[i])
                     .build();
             employees.add(employee);
         }
